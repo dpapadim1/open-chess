@@ -34,8 +34,8 @@ jobs:
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan github.com >> ~/.ssh/known_hosts
-        Start-Service ssh-agent
-        ssh-add ~/.ssh/id_rsa
+        # Manually add the SSH key without using ssh-agent
+        $env:GIT_SSH_COMMAND = "ssh -i ~/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
     - name: Configure Git to use SSH
       run: git remote set-url origin git@github.com:dpapadim1/open-chess.git
