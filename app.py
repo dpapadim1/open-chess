@@ -19,10 +19,17 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
-    """Home page"""
-    return render_template("index.html")
+    """Start a chess game"""
+
+    if request.method == "POST":
+        return render_template("index2.html", shares=shares, cash=usd(cash), total=usd(total))
+    else:
+        return render_template("index.html")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+
 
 @app.route("/newgame", methods=["GET", "POST"])
 def newgame():
